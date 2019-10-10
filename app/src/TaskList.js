@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Task from './Task';
-//import '../../stylesheets/ColorList.scss'
+import '../src/stylesheets/style.css'
 
 const TaskList = ({ tasks=[], handleInputChange=f=>f, onUpdate=f=>f, onRemove=f=>f, onCompletion=f=>f }) =>
     <div className="task-list">

@@ -50,17 +50,17 @@ class Task extends Component {
         const { title, category, handleInputChange, onUpdate, onCompletion, onRemove } = this.props
         return (
             <div className="task" style={this.style}>
-                <label ref="category">{category}: </label>
+                {/* <label ref="category"></label> */}
                 <label
                     ref="title"
-                >{title}</label>
+                >{category}: {title}</label>
                     {/* // onChange={()=>{this._handleChangeEvent(title);}} 
                     // defaultValue={title} */}
                 
                         
                
                 <button onClick={onUpdate}>Edit</button>
-                <button onClick={onCompletion}>Complete</button>
+                <button className="completion" onClick={onCompletion}>Complete</button>
                 <button onClick={onRemove}>Delete</button>
                 {/* <div className="color"
                      style={{ backgroundColor: color }}>

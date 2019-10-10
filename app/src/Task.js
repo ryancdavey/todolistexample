@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Delete from './Delete';
+import AddTaskForm from './Add';
 
 class Task extends Component {
 
@@ -35,7 +35,7 @@ class Task extends Component {
     
 
     render() {
-        const { title, category, handleInputChange, onUpdate, onCompletion, onRemove } = this.props
+        const { id, title, category, handleInputChange, onUpdate, onCompletion, onRemove } = this.props
         return (
             <div className="task" style={this.style}>
                 {/* <label ref="category"></label> */}

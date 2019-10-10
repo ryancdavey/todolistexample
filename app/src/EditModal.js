@@ -1,30 +1,33 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import { Modal } from 'react-picker';
 
-handleClose = () => setShow(false);
-handleShow = () => setShow(true);
+// const handleClose = () => {
+//     this.setState({show: false});
+// };
+// const handleShow = () => {
+//     this.setState({show: false});
+// };
 
-const editModal = ({ tasks=[], handleInputChange=f=>f, onUpdate=f=>f, onRemove=f=>f, onCompletion=f=>f }) =>
-    <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-        <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-                Close
-            </Button>
-            <Button variant="primary" onClick={handleClose}>
-                Save Changes
-            </Button>
-        </Modal.Footer>
-    </Modal>
+// const editModal = ({ id}) =>
+// //     <Modal show={false} onHide={handleClose}>
+// //         <Modal.Header closeButton>
+// //             <Modal.Title>Editing task</Modal.Title>
+// //         </Modal.Header>
+// //         <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+// //             <button onClick={this.handleClose}>
+// //                 Close
+// //             </button>
+// //             <button onClick={this.handleClose}>
+// //                 Save Changes
+// //             </button>
+// //     </Modal>
 
-editModal.propTypes = {
-    tasks: PropTypes.array,
-    onUpdate: PropTypes.func,
-    onCompletion: PropTypes.func,
+// // editModal.propTypes = {
+// //     tasks: PropTypes.array,
+// //     onUpdate: PropTypes.func,
+// //     onCompletion: PropTypes.func,
 
-}
+// // }
 
-export default editModal;
+// export default editModal;

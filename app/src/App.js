@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import TaskList from './TaskList';
-import Add from './Add';
+//import EditModal from './EditModal';
 import AddTaskForm from './Add';
+
 
 class App extends Component {
 
@@ -28,7 +29,7 @@ class App extends Component {
           "category": "Personal"
         }
      ],
-     pickerValue: "a",
+     editing: false
 
     }
     this.addTask = this.addTask.bind(this);
@@ -37,6 +38,11 @@ class App extends Component {
 
     }
 
+/**
+  * adds task to the task list
+  * @param   {string}   title - text value for the newly created task
+  * @param   {string}   category - type for the newly created task
+  */
     addTask(title, category) {
       this.setState(prevState => ({
         tasks: [
@@ -50,24 +56,38 @@ class App extends Component {
       }))
     }
 
-  updateTask(id, title) {
-    
+  // updateTask(id) {
+  //   this.setState({editing: true});
+  //   return (
+  //     <div>
+
+  //     </div>
+  //   );
+  // }
+
+/**
+  * updates text for the 
+  * @param   {integer}   id - unique identifier for the task
+  * @param   {string}   title - new text label value for the task
+  */
+  updateTask(id) {
+
       this.setState(prevState => ({
           tasks: prevState.tasks.map(task =>
               (task.id !== id) ?
                   task :
                   {
                       ...task,
-                      title
+                      title: AddTaskForm._title
                   }
           )
       }))
   }
 
-  showModal(){
-    console.log(1);
-
-  }
+  // showModal(){
+  //   console.log(1);
+  //   this.setState({show: true});
+  // }
 
   // handleInputChange(e) {
   //   this.setState({
@@ -76,7 +96,10 @@ class App extends Component {
   // }
 
 
-
+/**
+  * deletes tasks in the list
+  * @param   {integer}   id - unique identifier for the task
+  */
   deleteTask(id) {
     console.log(id);
     this.setState(prevState => ({
@@ -88,6 +111,10 @@ class App extends Component {
     console.log(id);
   }
 
+  /**
+    * Creates unique id for a newly created task
+    * @return  {string}  id - a unique string containing 'id-' and a number
+    */
   createUniqueId() {
     this.startingId += 1;
     let id = 'id-' + this.startingId;
@@ -95,13 +122,13 @@ class App extends Component {
   }
 
   render() {
-    const { addTask, handleInputChange, showModal, updateTask, deleteTask, completeTask } = this;
+    const { addTask, updateTask, deleteTask, completeTask } = this;
     const { tasks } = this.state;
     return (
       <body>
         <div className="app">
             <TaskList tasks={tasks}
-                       onUpdate={showModal}
+                       onUpdate={updateTask}
                        onRemove={deleteTask}
                        onCompletion={completeTask} />
           <AddTaskForm onNewTask={addTask} />

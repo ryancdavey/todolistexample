@@ -25,4 +25,4 @@ TaskList.propTypes = {
 
 }
 
-export default TaskList
+export default TaskList;

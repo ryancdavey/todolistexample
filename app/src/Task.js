@@ -29,18 +29,6 @@ class Task extends Component {
         //.refs.title.style.color = "black"
     }
 
-    // JSalert() {
-    //     swal({ 
-    //         title: "Edit Task",   
-    //         text: "Enter an update or cancel:",   
-    //         type: "input",   
-    //         showCancelButton: true,   
-    //         closeOnConfirm: false,   
-    //         animation: "slide-from-top",   
-    //         inputPlaceholder: "" 
-    //     });
-    // }
-
     _handleChangeEvent(value) {
         return value;
       }
@@ -52,16 +40,18 @@ class Task extends Component {
             <div className="task" style={this.style}>
                 {/* <label ref="category"></label> */}
                 <label
-                    ref="title"
+                    class="task-title"
                 >{category}: {title}</label>
                     {/* // onChange={()=>{this._handleChangeEvent(title);}} 
                     // defaultValue={title} */}
                 
                         
                
-                <button onClick={onUpdate}>Edit</button>
-                <button className="completion" onClick={onCompletion}>Complete</button>
-                <button onClick={onRemove}>Delete</button>
+                <button className="example_c" onClick={onUpdate}>Edit</button>
+                <div class="divider"/>
+                <button className="completion example_c" onClick={onCompletion}>Complete</button>
+                <div class="divider"/>
+                <button className="example_c" onClick={onRemove}>Delete</button>
                 {/* <div className="color"
                      style={{ backgroundColor: color }}>
                 </div> */}

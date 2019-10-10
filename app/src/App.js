@@ -27,7 +27,9 @@ class App extends Component {
           "title": "Take out trash",
           "category": "Personal"
         }
-     ]
+     ],
+     pickerValue: "a",
+
     }
     this.addTask = this.addTask.bind(this);
     this.updateTask = this.updateTask.bind(this);
@@ -49,6 +51,7 @@ class App extends Component {
     }
 
   updateTask(id, title) {
+    
       this.setState(prevState => ({
           tasks: prevState.tasks.map(task =>
               (task.id !== id) ?
@@ -61,12 +64,18 @@ class App extends Component {
       }))
   }
 
-  handleInputChange(e) {
-    console.log("aaaaa");
-    this.setState({
-        title: e.target.value
-      });
+  showModal(){
+    console.log(1);
+
   }
+
+  // handleInputChange(e) {
+  //   this.setState({
+  //       title: e.target.value
+  //     });
+  // }
+
+
 
   deleteTask(id) {
     console.log(id);
@@ -76,7 +85,7 @@ class App extends Component {
   }
 
   completeTask(id) {
-
+    console.log(id);
   }
 
   createUniqueId() {
@@ -86,17 +95,18 @@ class App extends Component {
   }
 
   render() {
-    const { addTask, handleInputChange, updateTask, deleteTask, completeTask } = this;
+    const { addTask, handleInputChange, showModal, updateTask, deleteTask, completeTask } = this;
     const { tasks } = this.state;
     return (
+      <body>
         <div className="app">
-            <AddTaskForm onNewTask={addTask} />
             <TaskList tasks={tasks}
-                       
-                       onUpdate={updateTask}
+                       onUpdate={showModal}
                        onRemove={deleteTask}
                        onCompletion={completeTask} />
+          <AddTaskForm onNewTask={addTask} />
         </div>
+      </body>
     )
   } 
 

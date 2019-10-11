@@ -10,9 +10,13 @@ class App extends Component {
 
   startingId = 2;
 
+  
    constructor (props) {
     super(props);
-     this.state = {
+     this.state = { // @brodey - This is also fine, but with class properties (google that), you can just do:
+       /**
+       * state = { ... }
+       */
         tasks: [{
           "id": "id-0",
           "title": "Make presentation slides",
@@ -34,7 +38,7 @@ class App extends Component {
     }
     this.addTask = this.addTask.bind(this);
     this.updateTask = this.updateTask.bind(this);
-    this.deleteTask = this.deleteTask.bind(this);
+    this.deleteTask = this.deleteTask.bind(this); // @brodey - This is fine, but you can use arrow functions inside of here to avoid needing to do this.
 
     }
 
@@ -63,7 +67,7 @@ class App extends Component {
 
   //     </div>
   //   );
-  // }
+  // } // @brodey - Don't leave commented code. If you don't need it, delete it.
 
 /**
   * updates text for the 
@@ -87,13 +91,13 @@ class App extends Component {
   // showModal(){
   //   console.log(1);
   //   this.setState({show: true});
-  // }
+  // } // @brodey - Don't leave commented code. If you don't need it, delete it.
 
   // handleInputChange(e) {
   //   this.setState({
   //       title: e.target.value
   //     });
-  // }
+  // } // @brodey - Don't leave commented code. If you don't need it, delete it.
 
 
 /**
@@ -101,14 +105,17 @@ class App extends Component {
   * @param   {integer}   id - unique identifier for the task
   */
   deleteTask(id) {
-    console.log(id);
+    console.log(id); // @brodey - Make sure to remove console logs after you're done testing.
     this.setState(prevState => ({
-      tasks: prevState.tasks.filter(task => task.id !== id)
+      tasks: prevState.tasks.filter(task => task.id !== id) // @brodey - Solid job on this
     }))
   }
 
   completeTask(id) {
-    console.log(id);
+    console.log(id); // @brodey - You'll have to take this task ID and create a new list of tasks in your UI
+    // @brodey - It will look something like: { completedTasts: [{ ... }] }
+    // @brodey - So in this handler, you'll do a find on the task with the above ID, and add it to that completedTasks array.
+    // @brodey - Once that's done, you'll filter that out of the previous array.
   }
 
   /**
@@ -116,7 +123,7 @@ class App extends Component {
     * @return  {string}  id - a unique string containing 'id-' and a number
     */
   createUniqueId() {
-    this.startingId += 1;
+    this.startingId += 1; // @brodey - No need to do this. Just do: { id: uuid.v4() }
     let id = 'id-' + this.startingId;
     return id;
   }
@@ -124,6 +131,18 @@ class App extends Component {
   render() {
     const { addTask, updateTask, deleteTask, completeTask } = this;
     const { tasks } = this.state;
+    
+    // @brodey - Make sure to fix the indentation below.
+    // @brodey - Indenting should look like:
+    /**
+     * <TaskList
+     *   onUpdate={onUpdate}
+     *   onRemove={onRemove}
+     *   onCompletion={onCompletion}
+     * />
+     **/
+    // @brodey - Notice above how the closing brackets align with the starting, and the props are indented 2 spaces.
+    
     return (
       <body>
         <div className="app">

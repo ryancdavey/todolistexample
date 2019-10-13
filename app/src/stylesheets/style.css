@@ -43,6 +43,16 @@
   align-content: center
 }
 
+.completed {
+  -ms-grid-column-align: center;
+  -moz-box-shadow: 0 4px 16px #aaa;
+  -webkit-box-shadow: 0 4px 16px #aaa;
+  box-shadow: 0 4px 16px #aaa;
+  width: 500px;
+  margin: 30px auto;
+  border-top: solid 8px gray;
+}
+
 html {
   min-height: 100%;
 }
@@ -123,10 +133,7 @@ react-container {
 .task-list .pending::after {
   content: counter(pending-items);
 }
-.task-list input {
-  position: absolute;
-  left: -999px;
-}
+
 .task-list input:focus + label {
   background: rgba(255, 255, 255, 0.4);
 } 

@@ -70,15 +70,16 @@ class App extends Component {
   * @param   {integer}   id - unique identifier for the task
   * @param   {string}   title - new text label value for the task
   */
-  updateTask(id) {
-
+  updateTask(id, title) {
+    console.log('??????');
+    console.log(title);
       this.setState(prevState => ({
           tasks: prevState.tasks.map(task =>
               (task.id !== id) ?
                   task :
                   {
                       ...task,
-                      title: AddTaskForm._title
+                      title,
                   }
           )
       }))
@@ -109,6 +110,7 @@ class App extends Component {
 
   completeTask(id) {
     console.log(id);
+
   }
 
   /**
@@ -127,11 +129,17 @@ class App extends Component {
     return (
       <body>
         <div className="app">
-            <TaskList tasks={tasks}
-                       onUpdate={updateTask}
+            <TaskList
+              tasks={tasks}
+              onUpdate={updateTask}
                        onRemove={deleteTask}
-                       onCompletion={completeTask} />
+                       onCompletion={completeTask} 
+            />
+            
           <AddTaskForm onNewTask={addTask} />
+        </div>
+        <div className="completed">
+          <h1>Completed</h1>
         </div>
       </body>
     )

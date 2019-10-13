@@ -4,50 +4,64 @@ import AddTaskForm from './Add';
 
 class Task extends Component {
 
+    state = {
+        isEditing: false,
+        updateValue: this.props.title,
+    }
+
     componentWillMount() {
         this.title = "Write down a new task";
     }
 
-    shouldComponentUpdate(nextProps) {
-        const { title } = this.props;
-        return title !== nextProps.title;
-    }
+    handleSetIsEditing = () => this.setState({
+        isEditing: true,
+    });
 
-    componentWillUpdate(nextProps) {
-        const { title } = this.props
-        this.style = null
-       // this.refs.title.style.backgroundColor = "red"
-        //this.refs.title.style.color = "white"
-        alert(`${title}: -> ${nextProps.title}`)
-    }
+    handleSetNoEditing = () => {
+        this.props.onUpdate(this.props.id, this.state.updateValue);
+        this.setState({isEditing: false,});
 
-    componentDidUpdate(prevProps) {
-        const { title } = this.props;
-        //const status = (rating > prevProps.rating) ? 'better' : 'worse'
-        //console.log(`${title} is getting ${status}`)
-        //this.refs.title.style.backgroundColor = ""
-        //.refs.title.style.color = "black"
-    }
+        console.log('???', this.props, this.state);
+    };
 
     _handleChangeEvent(value) {
         return value;
       }
-    
+
+    handleChange = event => this.setState({
+        updateValue: event.target.value,
+    });
 
     render() {
         const { id, title, category, handleInputChange, onUpdate, onCompletion, onRemove } = this.props
+
+        console.log(this.state);
+
         return (
             <div className="task" style={this.style}>
+                <div>
+                    {this.state.isEditing ? (
+                        <input
+                            type="text"
+                            value={this.state.updateValue}
+                            onChange={this.handleChange}
+                        />
+                    ) : (
+                        <label class="task-title">{category}: {title}</label>
+                    )}
+                </div>
                 {/* <label ref="category"></label> */}
-                <label
-                    class="task-title"
-                >{category}: {title}</label>
+                
                     {/* // onChange={()=>{this._handleChangeEvent(title);}} 
                     // defaultValue={title} */}
                 
                         
                
-                <button className="example_c" onClick={onUpdate}>Edit</button>
+                <button className="example_c" onClick={!this.state.isEditing ? this.handleSetIsEditing : this.handleSetNoEditing}>
+                    {
+                        this.state.isEditing ? "Save" : "Edit"
+                    }
+                </button>
                 <div class="divider"/>
                 <button className="completion example_c" onClick={onCompletion}>Complete</button>
                 <div class="divider"/>

@@ -22,7 +22,7 @@ TaskList.propTypes = {
     tasks: PropTypes.array,
     onUpdate: PropTypes.func,
     onCompletion: PropTypes.func,
-
+    // @brodey - Don't leave whitespaces like this.
 }
 
 export default TaskList;

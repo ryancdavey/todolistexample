@@ -5,10 +5,10 @@ import AddTaskForm from './Add';
 class Task extends Component {
 
     componentWillMount() {
-        this.title = "Write down a new task";
+        this.title = "Write down a new task"; // @brodey - There's no reason to do this.
     }
 
-    shouldComponentUpdate(nextProps) {
+    shouldComponentUpdate(nextProps) { // @brodey - Like I mentioned yesterday, you should never need to use this lifecycle method.
         const { title } = this.props;
         return title !== nextProps.title;
     }

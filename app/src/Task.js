@@ -48,10 +48,8 @@ class Task extends Component {
                 </div>
                 {/* <label ref="category"></label> */}
                 
-                    {/* // onChange={()=>{this._handleChangeEvent(title);}} 
-                    // defaultValue={title} */}
-                
-                        
+                    {/* // onChange={()=>{this._handleChangeEvent(s
+                    // defaultValue={title} */}  
                
                 <button className="example_c" onClick={!this.state.isEditing ? this.handleSetIsEditing : this.handleSetNoEditing}>
                     {

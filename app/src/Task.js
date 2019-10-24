@@ -5,12 +5,8 @@ import AddTaskForm from './Add';
 class Task extends Component {
 
     state = {
-        isEditing: false,
         updateValue: this.props.title,
-    }
-
-    componentWillMount() {
-        this.title = "Write down a new task";
+        isEditing: false,
     }
 
     handleSetIsEditing = () => this.setState({
@@ -47,7 +43,7 @@ class Task extends Component {
                             onChange={this.handleChange}
                         />
                     ) : (
-                        <label class="task-title">{category}: {title}</label>
+                        <label className="task-title">{category}: {title}</label>
                     )}
                 </div>
                 {/* <label ref="category"></label> */}
@@ -62,9 +58,9 @@ class Task extends Component {
                         this.state.isEditing ? "Save" : "Edit"
                     }
                 </button>
-                <div class="divider"/>
+                <div className="divider"/>
                 <button className="completion example_c" onClick={onCompletion}>Complete</button>
-                <div class="divider"/>
+                <div className="divider"/>
                 <button className="example_c" onClick={onRemove}>Delete</button>
                 {/* <div className="color"
                      style={{ backgroundColor: color }}>

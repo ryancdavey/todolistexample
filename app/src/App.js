@@ -1,12 +1,20 @@
 import React, {Component} from 'react';
-import './App.css';
-import TaskList from './TaskList';
-import AddTaskForm from './Add';
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+import TaskList from './components/TaskList.js';
+import AddTaskForm from './components/Add.js';
+
+import Navbar from "./components/Navbar.component"
+import TasksList from "./components/task-list.component";
+import EditTask from "./components/edit-task.component";
+import CreateTask from "./components/create-task.component";
 
 const uuid = require('uuid/v4');
 
-class App extends Component {
 
+class App extends Component {
+    startingId = 2;
     state = {
       tasks: [{
           "id": this.createUniqueId(),
@@ -15,7 +23,7 @@ class App extends Component {
         },
         {
           "id": this.createUniqueId(),
-          "title": "Sign birthday",
+          "title": "Sign birthday card",
           "category": "Social"
         },
         {
@@ -31,21 +39,6 @@ class App extends Component {
     updateTask = f=>f;
     deleteTask = f=>f;
     completeTask = f=>f;
-
-  // componentDidMount() {  
-  //   this.ajax({  
-  //     url: "api/getdata",  
-  //     type: "GET",  
-  //     dataType: 'json',  
-  //     ContentType: 'application/json',  
-  //     success: function(data) {           
-  //       this.setState({tasks: data});   
-  //     }.bind(this),  
-  //     error: function(jqXHR) {  
-  //       console.log(jqXHR);  
-  //     }.bind(this)  
-  //   });  
-  // }  
 
 /**
   * adds task to the task list
@@ -88,14 +81,30 @@ class App extends Component {
   * @param   {integer}   id - unique identifier for the task
   */
   deleteTask(id) {
-    console.log(id); // @brodey - Make sure to remove console logs after you're done testing.
     this.setState(prevState => ({
-      tasks: prevState.tasks.filter(task => task.id !== id) // @brodey - Solid job on this
+      tasks: prevState.tasks.filter(task => task.id !== id)
     }))
   }
 
+/**
+  * completes tasks in the list and adds to completed list
+  * @param   {integer}   id - unique identifier for the task
+  */
   completeTask(id) {
-    console.log(id); // @brodey - You'll have to take this task ID and create a new list of tasks in your UI
+    console.log(id); 
+    this.setState(prevState => ({
+      completedTasks: prevState.tasks.map(task =>
+        (task._id === id) ?
+        this.completedTasks :
+          [
+            ...this.completedTasks,
+            task,
+          ]
+      ),
+      tasks: prevState.tasks.filter(task => task.id !== id)
+    }));
+
+    // @brodey - You'll have to take this task ID and create a new list of tasks in your UI
     // @brodey - It will look something like: { completedTasts: [{ ... }] }
     // @brodey - So in this handler, you'll do a find on the task with the above ID, and add it to that completedTasks array.
     // @brodey - Once that's done, you'll filter that out of the previous array.
@@ -115,28 +124,36 @@ class App extends Component {
     const { addTask, updateTask, deleteTask, completeTask } = this;
     const { tasks, completedTasks } = this.state;
     return (
-      <body>
-        <div className="app">
-          <TaskList
-            tasks={tasks}
-            onUpdate={updateTask}
-            onRemove={deleteTask}
-            onCompletion={completeTask} 
-          />   
-        </div>
-        <div className="col-md-12">
-        <AddTaskForm onNewTask={addTask} />
-        </div>
-        <div className="completed">
-          <h1>Completed</h1>
-          <TaskList
-            tasks={completedTasks}
-            onUpdate={updateTask}
-            onRemove={deleteTask}
-            onCompletion={completeTask} 
-          />  
-        </div>
-      </body>
+      <Router>
+          <div className="container">
+            <Navbar />
+            <br/>
+            <Route path="/" exact component={TasksList} />
+            <Route path="/edit/:id" component={EditTask} />
+            <Route path="/create" component={CreateTask} />
+          </div>
+          {/* <div className="app">
+            <TaskList
+              tasks={tasks}
+              onUpdate={updateTask}
+              onRemove={deleteTask}
+              onCompletion={completeTask} 
+            />   
+          </div>
+          <div className="col-md-12">
+            <AddTaskForm onNewTask={addTask} />
+          </div>
+          <div className="completed">
+            <h1>Completed</h1>
+            <TaskList
+              tasks={completedTasks}
+              onUpdate={updateTask}
+              onRemove={deleteTask}
+              onCompletion={completeTask} 
+            />  
+          </div> */}
+        
+      </Router>
     )
   } 
 }

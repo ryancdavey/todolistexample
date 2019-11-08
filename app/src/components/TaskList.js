@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Task from './Task';
-// @brodey - Importing css like this is usually done within the top level index.js file.
 
 const TaskList = ({ tasks=[], onUpdate=f=>f, onRemove=f=>f, onCompletion=f=>f }) =>
   <div className="task-list">

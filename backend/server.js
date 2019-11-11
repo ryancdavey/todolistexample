@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const tasksRouter = require('./routes/tasks.js');
 
 require('dotenv').config();
 
@@ -11,14 +12,14 @@ app.use(cors());
 app.use(express.json());
 
 const uri = process.env.ATLAS_URI;
-mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
+mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
+  .then(res => console.log('connected'))
+  .catch(e => console.log(e));
 
 const connection = mongoose.connection;
 connection.once('open', () => {
   console.log('MongoDB database connection established successfully');
 });
-
-const tasksRouter = require('./routes/tasks.js');
 
 app.use('/tasks', tasksRouter);
 

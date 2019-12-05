@@ -47,6 +47,7 @@ export default class TodosList extends Component {
               <tr>
                 <th>Description</th>
                 <th>Category</th>
+                <th>Priority</th>
                 <th>Action</th>
              </tr>
             </thead>

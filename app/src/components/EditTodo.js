@@ -37,6 +37,12 @@ export default class EditTodo extends Component {
         });
     }
 
+    onChangeTodoPriority = e => {
+      this.setState({
+          todo_priority: e.target.value
+      });
+    }
+
     onChangeTodoCompleted = e => {
       this.setState({
           todo_completed: !this.state.todo_completed
@@ -48,6 +54,7 @@ export default class EditTodo extends Component {
         const todo = {
             todo_description: this.state.todo_description,
             todo_category: this.state.todo_category,
+            todo_priority: this.state.todo_priority,
             todo_completed: this.state.todo_completed
         };
         console.log(todo);
@@ -83,7 +90,41 @@ export default class EditTodo extends Component {
                                 onChange={this.onChangeTodoCategory}
                                 />
                     </div>
-                    
+                    <div className="form-group">
+                        <div className="form-check form-check-inline">
+                            <input  className="form-check-input" 
+                                    type="radio" 
+                                    name="priorityOptions" 
+                                    id="priorityLow" 
+                                    value="Low"
+                                    checked={this.state.todo_priority==='Low'} 
+                                    onChange={this.onChangeTodoPriority}
+                                    />
+                            <label className="form-check-label">Low</label>
+                        </div>
+                        <div className="form-check form-check-inline">
+                            <input  className="form-check-input" 
+                                    type="radio" 
+                                    name="priorityOptions" 
+                                    id="priorityMedium" 
+                                    value="Medium" 
+                                    checked={this.state.todo_priority==='Medium'} 
+                                    onChange={this.onChangeTodoPriority}
+                                    />
+                            <label className="form-check-label">Medium</label>
+                        </div>
+                        <div className="form-check form-check-inline">
+                            <input  className="form-check-input" 
+                                    type="radio" 
+                                    name="priorityOptions" 
+                                    id="priorityHigh" 
+                                    value="High" 
+                                    checked={this.state.todo_priority==='High'} 
+                                    onChange={this.onChangeTodoPriority}
+                              />
+                            <label className="form-check-label">High</label>
+                        </div>
+                </div>
                     <div className="form-check">
                         <input  className="form-check-input"
                                 id="completedCheckbox"

@@ -3,20 +3,13 @@ import axios from 'axios';
 
 export default class EditTodo extends Component {
 
-  constructor(props) {
-    super(props);
-    this.onChangeTodoDescription = f=>f;
-    this.onChangeTodoCategory = f=>f;
-    this.onChangeTodoCompleted = f=>f;
-    this.onSubmit = f=>f;
-
-    this.state = {
+  state = {
       todo_description: '',
       todo_category: '',
       todo_priority: '',
       todo_completed: false
     }
-  }
+
 
     componentDidMount() {
         axios.get('http://localhost:4000/todos/'+this.props.match.params.id)
@@ -32,25 +25,25 @@ export default class EditTodo extends Component {
             })
     }
 
-    onChangeTodoDescription(e) {
+    onChangeTodoDescription = e => {
         this.setState({
             todo_description: e.target.value
         });
     }
 
-    onChangeTodoCategory(e) {
+    onChangeTodoCategory = e => {
         this.setState({
             todo_category: e.target.value
         });
     }
 
-    onChangeTodoCompleted(e) {
+    onChangeTodoCompleted = e => {
       this.setState({
           todo_completed: !this.state.todo_completed
       });
   }
 
-    onSubmit(e) {
+    onSubmit = e => {
         e.preventDefault();
         const todo = {
             todo_description: this.state.todo_description,
@@ -59,9 +52,13 @@ export default class EditTodo extends Component {
         };
         console.log(todo);
         axios.post('http://localhost:4000/todos/update/'+this.props.match.params.id, todo)
-            .then(res => console.log(res.data));
+            .then(res => {
+              this.props.history.push('/');
+              console.log(res.data);
+            })
+            .catch(err => console.log(err));
         
-        this.props.history.push('/');
+        
     }
 
     render() {

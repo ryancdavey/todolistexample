@@ -4,20 +4,12 @@ import axios from 'axios';
 
 export default class CreateTodo extends Component {
 
-    constructor(props) {
-        super(props);
-
-        this.onChangeTodoDescription = f=>f;
-        this.onChangeTodoCategory = f=>f;
-        this.onSubmit = f=>f;
-
-        this.state = {
+        state = {
             todo_description: '',
             todo_category: '',
             todo_priority: '',
             todo_completed: false
         }
-    }
 
     onChangeTodoDescription = event => {
         this.setState({
@@ -33,11 +25,11 @@ export default class CreateTodo extends Component {
 
     onChangeTodoCompleted = event => {
       this.setState({
-          todo_completed: !this.state.todo_completed
+          todo_completed: event.target.value
       });
     }
 
-    onSubmit(e) {
+    onSubmit = e => {
       e.preventDefault();
 
         console.log(`Form submitted:`);
@@ -64,7 +56,7 @@ export default class CreateTodo extends Component {
     render() {
         return (
           <div>
-          <h3 align="center">Update Todo</h3>
+          <h3 align="center">Create Todo</h3>
           <form onSubmit={this.onSubmit}>
               <div className="form-group"> 
                   <label>Description: </label>
@@ -101,7 +93,7 @@ export default class CreateTodo extends Component {
               <br />
 
               <div className="form-group">
-                  <input type="submit" value="Update Todo" className="btn btn-primary" />
+                  <input type="submit" value="Create Todo" className="btn btn-primary" />
               </div>
           </form>
       </div>

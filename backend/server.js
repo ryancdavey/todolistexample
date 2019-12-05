@@ -23,9 +23,15 @@ todoRoutes.route('/').get(function(req, res) {
     });
 });
 todoRoutes.route('/:id').get(function(req, res) {
+
     let id = req.params.id;
     Todo.findById(id, function(err, todo) {
-        res.json(todo);
+      if (err) {
+        return res.status(404).json({ 
+          error: `Task with id: ${id} does not exist`
+        });
+      } 
+      res.json(todo);
     });
 });
 todoRoutes.route('/update/:id').post(function(req, res) {

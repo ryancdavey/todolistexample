@@ -20,3 +20,15 @@
 .App-link {
   color: #09d3ac;
 }
+
+.Priority-High {
+  background-color: "#F08080"
+}
+
+.Priority-Medium {
+  background-color: "#F0E68C"
+}
+
+.Priority-Low {
+  background-color: "#32CD32"
+}

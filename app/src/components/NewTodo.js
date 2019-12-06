@@ -24,9 +24,10 @@ export default class CreateTodo extends Component {
     }
 
     onChangeTodoPriority = e => {
-      this.setState({
-          todo_priority: e.target.value
-      });
+      this.setState({ todo_priority: e.target.value });
+      // if (e.target.value==='High') { this.style.backgroundColor = 'red' } 
+      // else if (e.target.value==='Medium') { this.style.backgroundColor = 'yellow' } 
+      // else { this.style.backgroundColor = 'green' }  
     }
 
     onChangeTodoCompleted = event => {
@@ -34,6 +35,16 @@ export default class CreateTodo extends Component {
           todo_completed: event.target.value
       });
     }
+
+    /**
+     * deletes tasks in the list
+     * @param   {integer}   id - unique identifier for the task
+     */
+    // deleteTask(id) {
+    //   this.setState(prevState => ({
+    //     tasks: prevState.tasks.filter(task => task.id !== id)
+    //   }))
+    // }
 
     onSubmit = e => {
       e.preventDefault();
@@ -52,7 +63,8 @@ export default class CreateTodo extends Component {
       };
 
       axios.post('http://localhost:4000/todos/add', newTodo)
-          .then(res => console.log(res.data));
+          .then(res => console.log(res.data))
+          .catch(err => console.log(err));
 
         this.setState({
             todo_description: '',

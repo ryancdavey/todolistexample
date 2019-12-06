@@ -3,11 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "express": "^4.17.1",
-    "express-generator": "^4.16.1",
-    "morgan": "^1.9.1",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
+    "react-loader-spinner": "^3.1.5",
     "react-picker": "^1.2.15",
     "react-scripts": "3.2.0",
     "uuid": "^3.3.3"

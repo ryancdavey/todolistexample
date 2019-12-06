@@ -3,14 +3,18 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { eventNames } from 'cluster';
 
 const Todo = props => (
-  <tr>
+  <tr className={`Priority-${props.todo.todo_priority}`}>
     <td className={props.todo.todo_completed ? 'completed' : ''}>{props.todo.todo_description}</td>
     <td className={props.todo.todo_completed ? 'completed' : ''}>{props.todo.todo_category}</td>
     <td className={props.todo.todo_completed ? 'completed' : ''}>{props.todo.todo_priority}</td>
+    <td className={props.todo.todo_completed ? 'completed' : ''}></td>
     <td>
       <Link to={"/edit/"+props.todo._id}>Edit</Link>
+      <br></br>
+      <button >Delete</button>
     </td>
   </tr>
 )
@@ -32,6 +36,21 @@ export default class TodosList extends Component {
       })
   }
 
+  removeTodo = (event, todo_id) => {
+    event.preventDefault();
+    axios.delete('http://localhost:4000/todos/'+this.props.match.params.id)
+      .then(res => {
+        this.setState(previousState => {
+          return {
+            todos: previousState.todos.filter(todo => todo.id !== todo_id)
+          };
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   todoList() {
     return this.state.todos.map(function(currentTodo, i){
         return <Todo todo={currentTodo} key={i} />;
@@ -41,21 +60,22 @@ export default class TodosList extends Component {
   render() {
     return (
       <div>
-        <h3>Todos List</h3>
-          <table className="table table-striped" style={{ marginTop: 20 }} >
-            <thead>
-              <tr>
-                <th>Description</th>
-                <th>Category</th>
-                <th>Priority</th>
-                <th>Action</th>
-             </tr>
-            </thead>
-            <tbody>
-              { this.todoList() }
-            </tbody>
-          </table>
-        </div>
-        )
+        <h3>Todo List</h3>
+        <table className="table" style={{ marginTop: 20 }} >
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Category</th>
+              <th>Priority</th>
+              <th>Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            { this.todoList() }
+          </tbody>
+        </table>
+      </div>
+    )
     }
 }

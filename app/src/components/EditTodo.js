@@ -17,6 +17,7 @@ export default class EditTodo extends Component {
                 this.setState({
                     todo_description: response.data.todo_description,
                     todo_category: response.data.todo_category,
+                    todo_priority: response.data.todo_priority,
                     todo_completed: response.data.todo_completed
                 })   
             })
@@ -64,8 +65,6 @@ export default class EditTodo extends Component {
               console.log(res.data);
             })
             .catch(err => console.log(err));
-        
-        
     }
 
     render() {

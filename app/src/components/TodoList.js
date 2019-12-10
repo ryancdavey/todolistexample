@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { eventNames } from 'cluster';
 
 const Todo = props => (
   <tr className={`Priority-${props.todo.todo_priority}`}>
@@ -14,7 +13,7 @@ const Todo = props => (
     <td>
       <Link to={"/edit/"+props.todo._id}>Edit</Link>
       <br></br>
-      <button >Delete</button>
+      <button onClick={e => props.onClick(e, props.todo._id)}>Delete</button>
     </td>
   </tr>
 )
@@ -38,7 +37,7 @@ export default class TodosList extends Component {
 
   removeTodo = (event, todo_id) => {
     event.preventDefault();
-    axios.delete('http://localhost:4000/todos/'+this.props.match.params.id)
+    axios.delete('http://localhost:4000/todos/'+todo_id)
       .then(res => {
         this.setState(previousState => {
           return {
@@ -51,9 +50,13 @@ export default class TodosList extends Component {
       });
   }
 
-  todoList() {
-    return this.state.todos.map(function(currentTodo, i){
-        return <Todo todo={currentTodo} key={i} />;
+  todoList = () => {
+    return this.state.todos.map((currentTodo, i) => {
+        return (<Todo 
+          todo={currentTodo} 
+          key={i} 
+          onClick={this.removeTodo}
+        />);
     })
   }
 

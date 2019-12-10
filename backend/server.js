@@ -38,7 +38,7 @@ todoRoutes.route('/update/:id').post(function(req, res) {
     Todo.findById(req.params.id, function(err, todo) {
         if (!todo)
             res.status(404).send("data is not found");
-        else
+        else 
             todo.todo_description = req.body.todo_description;
             todo.todo_category = req.body.todo_category;
             todo.todo_completed = req.body.todo_completed;
@@ -61,7 +61,7 @@ todoRoutes.route('/add').post(function(req, res) {
         });
 });
 
-todoRoutes.route('/delete/:id').get(function(req, res) {
+todoRoutes.route('/:id').delete(function(req, res) {
   //let todo = new Todo(req.body);
   todo.delete()
       .then(todo => {

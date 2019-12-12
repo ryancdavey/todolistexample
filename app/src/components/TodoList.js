@@ -5,11 +5,11 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const Todo = props => (
-  <tr className={`Priority-${props.todo.todo_priority}`}>
-    <td className={props.todo.todo_completed ? 'completed' : ''}>{props.todo.todo_description}</td>
-    <td className={props.todo.todo_completed ? 'completed' : ''}>{props.todo.todo_category}</td>
-    <td className={props.todo.todo_completed ? 'completed' : ''}>{props.todo.todo_priority}</td>
-    <td className={props.todo.todo_completed ? 'completed' : ''}></td>
+  <tr className={`Priority-${props.todo.todoPriority}`}>
+    <td className={props.todo.todoCompleted ? 'completed' : ''}>{props.todo.todoDescription}</td>
+    <td className={props.todo.todoCompleted ? 'completed' : ''}>{props.todo.todoCategory}</td>
+    <td className={props.todo.todoCompleted ? 'completed' : ''}>{props.todo.todoPriority}</td>
+    <td className={props.todo.todoCompleted ? 'completed' : ''}></td>
     <td>
       <Link to={"/edit/"+props.todo._id}>Edit</Link>
       <br></br>

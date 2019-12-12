@@ -4,21 +4,21 @@ import axios from 'axios';
 export default class EditTodo extends Component {
 
   state = {
-      todo_description: '',
-      todo_category: '',
-      todo_priority: '',
-      todo_completed: false
-    }
+    todoDescription: '',
+    todoCategory: '',
+    todoPriority: '',
+    todoCompleted: false
+  }
 
 
     componentDidMount() {
         axios.get('http://localhost:4000/todos/'+this.props.match.params.id)
             .then(response => {
                 this.setState({
-                    todo_description: response.data.todo_description,
-                    todo_category: response.data.todo_category,
-                    todo_priority: response.data.todo_priority,
-                    todo_completed: response.data.todo_completed
+                  todoDescription: response.data.todoDescription,
+                  todoCategory: response.data.todoCategory,
+                  todoPriority: response.data.todoPriority,
+                  todoCompleted: response.data.todoCompleted
                 })   
             })
             .catch(function (error) {
@@ -28,35 +28,35 @@ export default class EditTodo extends Component {
 
     onChangeTodoDescription = e => {
         this.setState({
-            todo_description: e.target.value
+          todoDescription: e.target.value
         });
     }
 
     onChangeTodoCategory = e => {
         this.setState({
-            todo_category: e.target.value
+          todoCategory: e.target.value
         });
     }
 
     onChangeTodoPriority = e => {
       this.setState({
-          todo_priority: e.target.value
+        todoPriority: e.target.value
       });
     }
 
     onChangeTodoCompleted = e => {
       this.setState({
-          todo_completed: !this.state.todo_completed
+        todoCompleted: !this.state.todoCompleted
       });
   }
 
     onSubmit = e => {
         e.preventDefault();
         const todo = {
-            todo_description: this.state.todo_description,
-            todo_category: this.state.todo_category,
-            todo_priority: this.state.todo_priority,
-            todo_completed: this.state.todo_completed
+          todoDescription: this.state.todoDescription,
+          todoCategory: this.state.todoCategory,
+          todoPriority: this.state.todoPriority,
+          todoCompleted: this.state.todoCompleted
         };
         console.log(todo);
         axios.post('http://localhost:4000/todos/update/'+this.props.match.params.id, todo)
@@ -76,7 +76,7 @@ export default class EditTodo extends Component {
                         <label>Description: </label>
                         <input  type="text"
                                 className="form-control"
-                                value={this.state.todo_description}
+                                value={this.state.todoDescription}
                                 onChange={this.onChangeTodoDescription}
                                 />
                     </div>
@@ -85,7 +85,7 @@ export default class EditTodo extends Component {
                         <input 
                                 type="text" 
                                 className="form-control"
-                                value={this.state.todo_category}
+                                value={this.state.todoCategory}
                                 onChange={this.onChangeTodoCategory}
                                 />
                     </div>
@@ -96,7 +96,7 @@ export default class EditTodo extends Component {
                                     name="priorityOptions" 
                                     id="priorityLow" 
                                     value="Low"
-                                    checked={this.state.todo_priority==='Low'} 
+                                    checked={this.state.todoPriority==='Low'} 
                                     onChange={this.onChangeTodoPriority}
                                     />
                             <label className="form-check-label">Low</label>
@@ -107,7 +107,7 @@ export default class EditTodo extends Component {
                                     name="priorityOptions" 
                                     id="priorityMedium" 
                                     value="Medium" 
-                                    checked={this.state.todo_priority==='Medium'} 
+                                    checked={this.state.todoPriority==='Medium'} 
                                     onChange={this.onChangeTodoPriority}
                                     />
                             <label className="form-check-label">Medium</label>
@@ -118,7 +118,7 @@ export default class EditTodo extends Component {
                                     name="priorityOptions" 
                                     id="priorityHigh" 
                                     value="High" 
-                                    checked={this.state.todo_priority==='High'} 
+                                    checked={this.state.todoPriority==='High'} 
                                     onChange={this.onChangeTodoPriority}
                               />
                             <label className="form-check-label">High</label>
@@ -130,8 +130,8 @@ export default class EditTodo extends Component {
                                 type="checkbox"
                                 name="completedCheckbox"
                                 onChange={this.onChangeTodoCompleted}
-                                checked={this.state.todo_completed}
-                                value={this.state.todo_completed}
+                                checked={this.state.todoCompleted}
+                                value={this.state.todoCompleted}
                                 />
                         <label className="form-check-label" htmlFor="completedCheckbox">
                             Completed

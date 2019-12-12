@@ -5,26 +5,26 @@ import axios from 'axios';
 export default class CreateTodo extends Component {
 
         state = {
-            todo_description: '',
-            todo_category: '',
-            todo_priority: '',
-            todo_completed: false
+          todoDescription: '',
+          todoCategory: '',
+          todoPriority: '',
+          todoCompleted: false
         }
 
     onChangeTodoDescription = event => {
         this.setState({
-            todo_description: event.target.value
+          todoDescription: event.target.value
         });
     }
 
     onChangeTodoCategory = event => {
         this.setState({
-            todo_category: event.target.value
+          todoCategory: event.target.value
         });
     }
 
     onChangeTodoPriority = e => {
-      this.setState({ todo_priority: e.target.value });
+      this.setState({ todoPriority: e.target.value });
       // if (e.target.value==='High') { this.style.backgroundColor = 'red' } 
       // else if (e.target.value==='Medium') { this.style.backgroundColor = 'yellow' } 
       // else { this.style.backgroundColor = 'green' }  
@@ -32,7 +32,7 @@ export default class CreateTodo extends Component {
 
     onChangeTodoCompleted = event => {
       this.setState({
-          todo_completed: event.target.value
+        todoCompleted: event.target.value
       });
     }
 
@@ -50,16 +50,16 @@ export default class CreateTodo extends Component {
       e.preventDefault();
 
         console.log(`Form submitted:`);
-        console.log(`Todo Description: ${this.state.todo_description}`);
-        console.log(`Todo category: ${this.state.todo_category}`);
-        console.log(`Todo priority: ${this.state.todo_priority}`);
-        console.log(`Todo Completed: ${this.state.todo_completed}`);
+        console.log(`Todo Description: ${this.state.todoDescription}`);
+        console.log(`Todo category: ${this.state.todoCategory}`);
+        console.log(`Todo priority: ${this.state.todoPriority}`);
+        console.log(`Todo Completed: ${this.state.todoCompleted}`);
 
         const newTodo = {
-          todo_description: this.state.todo_description,
-          todo_category: this.state.todo_category,
-          todo_priority: this.state.todo_priority,
-          todo_completed: this.state.todo_completed
+          todoDescription: this.state.todoDescription,
+          todoCategory: this.state.todoCategory,
+          todoPriority: this.state.todoPriority,
+          todoCompleted: this.state.todoCompleted
       };
 
       axios.post('http://localhost:4000/todos/add', newTodo)
@@ -67,9 +67,9 @@ export default class CreateTodo extends Component {
           .catch(err => console.log(err));
 
         this.setState({
-            todo_description: '',
-            todo_category: '',
-            todo_completed: false
+          todoDescription: '',
+          todoCategory: '',
+          todoCompleted: false
         })
     }
 
@@ -82,7 +82,7 @@ export default class CreateTodo extends Component {
                   <label>Description: </label>
                   <input  type="text"
                           className="form-control"
-                          value={this.state.todo_description}
+                          value={this.state.todoDescription}
                           onChange={this.onChangeTodoDescription}
                   />
               </div>
@@ -91,7 +91,7 @@ export default class CreateTodo extends Component {
                   <input 
                           type="text" 
                           className="form-control"
-                          value={this.state.todo_category}
+                          value={this.state.todoCategory}
                           onChange={this.onChangeTodoCategory}
                   />
               </div>
@@ -102,7 +102,7 @@ export default class CreateTodo extends Component {
                                     name="priorityOptions" 
                                     id="priorityLow" 
                                     value="Low"
-                                    checked={this.state.todo_priority==='Low'} 
+                                    checked={this.state.todoPriority==='Low'} 
                                     onChange={this.onChangeTodoPriority}
                                     />
                             <label className="form-check-label">Low</label>
@@ -113,7 +113,7 @@ export default class CreateTodo extends Component {
                                     name="priorityOptions" 
                                     id="priorityMedium" 
                                     value="Medium" 
-                                    checked={this.state.todo_priority==='Medium'} 
+                                    checked={this.state.todoPriority==='Medium'} 
                                     onChange={this.onChangeTodoPriority}
                                     />
                             <label className="form-check-label">Medium</label>
@@ -124,7 +124,7 @@ export default class CreateTodo extends Component {
                                     name="priorityOptions" 
                                     id="priorityHigh" 
                                     value="High" 
-                                    checked={this.state.todo_priority==='High'} 
+                                    checked={this.state.todoPriority==='High'} 
                                     onChange={this.onChangeTodoPriority}
                               />
                             <label className="form-check-label">High</label>
@@ -136,8 +136,8 @@ export default class CreateTodo extends Component {
                           type="checkbox"
                           name="completedCheckbox"
                           onChange={this.onChangeTodoCompleted}
-                          checked={this.state.todo_completed}
-                          value={this.state.todo_completed}
+                          checked={this.state.todoCompleted}
+                          value={this.state.todoCompleted}
                   />
                   <label className="form-check-label" htmlFor="completedCheckbox">
                       Completed

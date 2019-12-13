@@ -13,6 +13,7 @@ const connection = mongoose.connection;
 connection.once('open', function() {
     console.log("MongoDB database connection established successfully");
 })
+
 todoRoutes.route('/').get(function(req, res) {
     Todo.find(function(err, todos) {
         if (err) {
@@ -22,6 +23,7 @@ todoRoutes.route('/').get(function(req, res) {
         }
     });
 });
+
 todoRoutes.route('/:id').get(function(req, res) {
 
     let id = req.params.id;
@@ -34,6 +36,7 @@ todoRoutes.route('/:id').get(function(req, res) {
       res.json(todo);
     });
 });
+
 todoRoutes.route('/update/:id').post(function(req, res) {
     Todo.findById(req.params.id, function(err, todo) {
         if (!todo)
@@ -50,6 +53,7 @@ todoRoutes.route('/update/:id').post(function(req, res) {
             });
     });
 });
+
 todoRoutes.route('/add').post(function(req, res) {
     let todo = new Todo(req.body);
     todo.save()

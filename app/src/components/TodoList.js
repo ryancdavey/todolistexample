@@ -9,6 +9,7 @@ const Todo = props => (
     <td className={props.todo.todoCompleted ? 'completed' : ''}>{props.todo.todoDescription}</td>
     <td className={props.todo.todoCompleted ? 'completed' : ''}>{props.todo.todoCategory}</td>
     <td className={props.todo.todoCompleted ? 'completed' : ''}>{props.todo.todoPriority}</td>
+    <td className={props.todo.todoCompleted ? 'completed' : ''}>{props.todo.todoCreatedAtDate}</td>
     <td className={props.todo.todoCompleted ? 'completed' : ''}></td>
     <td>
       <Link to={"/edit/"+props.todo._id}>Edit</Link>

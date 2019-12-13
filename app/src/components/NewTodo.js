@@ -48,17 +48,19 @@ export default class CreateTodo extends Component {
 
     onSubmit = e => {
       e.preventDefault();
-
+      var date = new Date();
         console.log(`Form submitted:`);
         console.log(`Todo Description: ${this.state.todoDescription}`);
         console.log(`Todo category: ${this.state.todoCategory}`);
         console.log(`Todo priority: ${this.state.todoPriority}`);
+        console.log(`Todo created at: ${date.toLocaleString('en-US')}`);
         console.log(`Todo Completed: ${this.state.todoCompleted}`);
 
         const newTodo = {
           todoDescription: this.state.todoDescription,
           todoCategory: this.state.todoCategory,
           todoPriority: this.state.todoPriority,
+          todoCreatedAtDate: date.toLocaleString('en-US'),
           todoCompleted: this.state.todoCompleted
       };
 
@@ -69,6 +71,8 @@ export default class CreateTodo extends Component {
         this.setState({
           todoDescription: '',
           todoCategory: '',
+          todoPriority: '',
+          todoCreatedAtDate: '',
           todoCompleted: false
         })
     }

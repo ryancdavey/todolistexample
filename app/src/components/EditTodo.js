@@ -10,7 +10,6 @@ export default class EditTodo extends Component {
     todoCompleted: false
   }
 
-
     componentDidMount() {
         axios.get('http://localhost:4000/todos/'+this.props.match.params.id)
             .then(response => {
@@ -39,9 +38,10 @@ export default class EditTodo extends Component {
     }
 
     onChangeTodoPriority = e => {
-      this.setState({
-        todoPriority: e.target.value
-      });
+      this.setState({ todoPriority: e.target.value });
+      // if (e.target.value==='High') { this.style.backgroundColor = 'red' } 
+      // else if (e.target.value==='Medium') { this.style.backgroundColor = 'yellow' } 
+      //
     }
 
     onChangeTodoCompleted = e => {
@@ -61,6 +61,7 @@ export default class EditTodo extends Component {
         console.log(todo);
         axios.post('http://localhost:4000/todos/update/'+this.props.match.params.id, todo)
             .then(res => {
+              
               this.props.history.push('/');
               console.log(res.data);
             })

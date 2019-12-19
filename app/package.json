@@ -6,8 +6,9 @@
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-loader-spinner": "^3.1.5",
+    "react-md-spinner": "^1.0.0",
     "react-picker": "^1.2.15",
-    "react-scripts": "3.2.0",
+    "react-scripts": "^3.3.0",
     "uuid": "^3.3.3"
   },
   "scripts": {

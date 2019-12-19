@@ -44,6 +44,7 @@ todoRoutes.route('/update/:id').post(function(req, res) {
         else 
             todo.todoDescription = req.body.todoDescription;
             todo.todoCategory = req.body.todoCategory;
+            todo.todPriority = req.body.todoPriority;
             todo.todoCompleted = req.body.todoCompleted;
             todo.save().then(todo => {
                 res.json('Todo updated!');
@@ -65,15 +66,17 @@ todoRoutes.route('/add').post(function(req, res) {
         });
 });
 
-todoRoutes.route('/:id').delete(function(req, res) {
+todoRoutes.route('/:id').delete((req, res) => {
   //let todo = new Todo(req.body);
-  todo.delete()
-      .then(todo => {
-          res.status(200).json({'todo': 'todo added successfully'});
-      })
-      .catch(err => {
-          res.status(400).send('deleting todo failed');
-      });
+  Todo.findByIdAndDelete(req.params.id)
+    .then(todo => {
+      res.status(200).json({'todo': 'todo deleted.'});
+    })
+    .catch(err => {
+        res.status(400).send('deleting todo failed');
+    });
+    // .then(() => res.json('Task deleted.'))
+    // .catch(err => res.status(400).json('Error: ' + err));
 });
 
 app.use('/todos', todoRoutes);

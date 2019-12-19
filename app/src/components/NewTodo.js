@@ -65,7 +65,10 @@ export default class CreateTodo extends Component {
       };
 
       axios.post('http://localhost:4000/todos/add', newTodo)
-          .then(res => console.log(res.data))
+          .then(res => {
+            this.props.history.push('/');
+            console.log(res.data);
+          })
           .catch(err => console.log(err));
 
         this.setState({
@@ -74,7 +77,8 @@ export default class CreateTodo extends Component {
           todoPriority: '',
           todoCreatedAtDate: '',
           todoCompleted: false
-        })
+        });
+        
     }
 
     render() {

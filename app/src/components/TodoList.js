@@ -16,7 +16,12 @@ const Todo = props => (
     <td>
       <Link to={"/edit/"+props.todo._id}>Edit</Link>
       <br></br>
-      <button onClick={e => props.onClick(e, props.todo._id)}>Delete</button>
+      <button
+        disabled={props.isDeleting && props.todo._id === props.todoToDelete}
+        onClick={e => props.onClick(e, props.todo._id)}
+      >
+        {props.isDeleting && props.todo._id === props.todoToDelete ? 'Deleting...' : 'Delete'}
+      </button>
     </td>
   </tr>
 )
@@ -27,7 +32,9 @@ export default class TodosList extends Component {
     super(props);
     this.state = {
       todos: [],
-      isLoading: false
+      isLoading: false,
+      isDeleting: false,
+      todoToDelete: null,
     };
 
   }
@@ -42,39 +49,44 @@ export default class TodosList extends Component {
 
   componentDidMount() {
     this.setState({ isLoading: true });
-    //this.wait(2000);
+    
     console.log('loading todos');
-     axios.get('http://localhost:4000/todos/')
+    setTimeout(() => {
+      axios.get('http://localhost:4000/todos/')
       .then(response => {
         console.log('todos loaded');
+        //this.wait(2000);
         this.setState({ todos: response.data, isLoading: false });
       })
       .catch(function (error){
-        this.setState({ isLoading: false });
+        //this.setState({ isLoading: false });
         console.log(error);
-      })
+      });
+    }, 1000);
   }
 
   
 
   removeTodo = (event, todo_id) => {
     event.preventDefault();
-    this.setState({ isLoading: true });
-    axios.delete('http://localhost:4000/todos/'+todo_id)
+    this.setState({ isDeleting: true, todoToDelete: todo_id });
+
+    setTimeout(() => {
+      axios.delete('http://localhost:4000/todos/'+todo_id)
       .then(res => {
         this.setState(previousState => {
           return {
-            todos: previousState.todos.filter(todo => todo.id !== todo_id),
+            todos: previousState.todos.filter(todo => todo._id !== todo_id),
           };
         });
-        this.setState({ isLoading: false });
-        //this.props.history.push('/');
       })
       .catch(err => {
         console.log(err);
+      })
+      .finally(() => {
+        this.setState({ isDeleting: false, todoToDelete: null });
       });
-    this.setState({ isLoading: false });
-    
+    }, 1500)  
   }
 
   todoList = () => {
@@ -83,6 +95,8 @@ export default class TodosList extends Component {
           todo={currentTodo} 
           key={i} 
           onClick={this.removeTodo}
+          isDeleting={this.state.isDeleting}
+          todoToDelete={this.state.todoToDelete}
         />);
       })
     }

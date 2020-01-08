@@ -26,15 +26,11 @@ export default class EditTodo extends Component {
     }
 
     onChangeTodoDescription = e => {
-        this.setState({
-          todoDescription: e.target.value
-        });
+        this.setState({ todoDescription: e.target.value });
     }
 
     onChangeTodoCategory = e => {
-        this.setState({
-          todoCategory: e.target.value
-        });
+        this.setState({ todoCategory: e.target.value });
     }
 
     onChangeTodoPriority = e => {
@@ -45,9 +41,7 @@ export default class EditTodo extends Component {
     }
 
     onChangeTodoCompleted = e => {
-      this.setState({
-        todoCompleted: !this.state.todoCompleted
-      });
+      this.setState({ todoCompleted: !this.state.todoCompleted });
   }
 
     onSubmit = e => {
@@ -61,7 +55,6 @@ export default class EditTodo extends Component {
         console.log(todo);
         axios.post('http://localhost:4000/todos/update/'+this.props.match.params.id, todo)
             .then(res => {
-              
               this.props.history.push('/');
               console.log(res.data);
             })

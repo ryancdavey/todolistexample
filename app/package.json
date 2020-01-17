@@ -9,6 +9,7 @@
     "react-md-spinner": "^1.0.0",
     "react-picker": "^1.2.15",
     "react-scripts": "^3.3.0",
+    "react-table": "^7.0.0-rc.15",
     "uuid": "^3.3.3"
   },
   "scripts": {

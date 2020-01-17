@@ -7,7 +7,7 @@ let db = require("./config.js");
   
 let app = express();  
 let port = process.env.port || 7777;  
-let srcpath  =path.join(__dirname,'/public') ;  
+let srcpath = path.join(__dirname,'/public') ;  
 app.use(express.static('public'));  
 app.use(bodyParser.json({limit:'5mb'}));    
 app.use(bodyParser.urlencoded({extended:true, limit:'5mb'}));  
@@ -52,7 +52,7 @@ app.post("/api/Removedata",function(req,res){
   
   
 //api for Update data from database  
-app.post("/api/Updatedata",function(req,res){   
+app.put("/api/Updatedata",function(req,res){   
  model.findByIdAndUpdate(req.body.id, { name:  req.body.name, address: req.body.address, contact: req.body.contact,email:req.body.email },   
 function(err) {  
  if (err) {  

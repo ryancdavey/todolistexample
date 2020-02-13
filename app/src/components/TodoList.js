@@ -1,14 +1,13 @@
 
 
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import MDSpinner from 'react-md-spinner';
 import ReactTable from "react-table";
 import Pagination from './Pagination';
-import Toast from 'react-bootstrap/Toast';
-import ToastHeader from 'react-bootstrap/ToastHeader';
-import ToastBody from 'react-bootstrap/ToastBody';
+import toast from 'toasted-notes' 
+import 'toasted-notes/src/styles.css';
 //import "react-table/react-table.css";
 
 const Todo = props => (
@@ -17,12 +16,12 @@ const Todo = props => (
     <td className={props.todo.todoCompleted ? 'completed' : ''}>{props.todo.todoCategory}</td>
     <td className={props.todo.todoCompleted ? 'completed' : ''}>{props.todo.todoPriority}</td>
     <td className={props.todo.todoCompleted ? 'completed' : ''}>{props.todo.todoCreatedAtDate}</td>
-    <td className={props.todo.todoCompleted ? 'completed' : ''}></td>
     <td>
-      <Link to={"/edit/"+props.todo._id}>Edit</Link>
+      <Link to={"/edit/"+props.todo._id} className={props.todo.todoCompleted ? 'completed-button' : ''} >Edit</Link>
       <br></br>
       <button
         disabled={props.isDeleting && props.todo._id === props.todoToDelete}
+        className={props.todo.todoCompleted ? 'completed-button' : ''}
         onClick={e => props.onClick(e, props.todo._id)}
       >
         {props.isDeleting && props.todo._id === props.todoToDelete ? 'Deleting...' : 'Delete'}
@@ -43,7 +42,7 @@ export default class TodosList extends Component {
       isLoading: false,
       isDeleting: false,
       todoToDelete: null,
-      offset: 1,
+      offset: 0,
       //currentPage: 1,
       //setCurrentPage: 1,
       todosPerPage: 10,
@@ -81,7 +80,7 @@ export default class TodosList extends Component {
   removeTodo = (event, todo_id) => {
     event.preventDefault();
     this.setState({ isDeleting: true, todoToDelete: todo_id });
-
+    const [show, setShow] = useState(false);
     setTimeout(() => {
       axios.delete('http://localhost:4000/todos/'+todo_id)
       .then(res => {
@@ -96,10 +95,9 @@ export default class TodosList extends Component {
       })
       .finally(() => {
         this.setState({ isDeleting: false, todoToDelete: null });
+        //toast.notify('Hello world!');
       });
     }, 1500);
-
-
 
   }
 
@@ -131,6 +129,7 @@ export default class TodosList extends Component {
       return (
         <div>
           <h3>Todo List</h3>
+          <button>Previous</button><button>Next</button>
           <Pagination items={this.exampleItems} onChangePage={this.onChangePage} />
           <table className="table" style={{ marginTop: 20 }} >
             <thead>
@@ -146,12 +145,7 @@ export default class TodosList extends Component {
               { this.todoList(this.state.todos) }
             </tbody>
           </table>
-          
         </div>
-
-
-
-
       )
     }
   }

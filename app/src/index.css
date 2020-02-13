@@ -13,5 +13,10 @@ code {
 }
 
 .completed {
+  color: gray;
   text-decoration: line-through;
+}
+
+.completed-button {
+  color: gray;
 }

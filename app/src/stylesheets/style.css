@@ -44,14 +44,13 @@
 }
 
 .completed {
-  -ms-grid-column-align: center;
-  -moz-box-shadow: 0 4px 16px #aaa;
-  -webkit-box-shadow: 0 4px 16px #aaa;
-  box-shadow: 0 4px 16px #aaa;
-  width: 500px;
-  margin: 30px auto;
-  border-top: solid 8px gray;
+  color: gray;
 }
+
+.completed-button {
+  color: gray;
+}
+
 
 html {
   min-height: 100%;

@@ -4,8 +4,11 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import MDSpinner from 'react-md-spinner';
-//import Pagination from "./src/components/Pagination";
 import ReactTable from "react-table";
+import Pagination from './Pagination';
+import Toast from 'react-bootstrap/Toast';
+import ToastHeader from 'react-bootstrap/ToastHeader';
+import ToastBody from 'react-bootstrap/ToastBody';
 //import "react-table/react-table.css";
 
 const Todo = props => (
@@ -32,6 +35,7 @@ export default class TodosList extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       todos: [],
       setTodos: [],
@@ -39,10 +43,11 @@ export default class TodosList extends Component {
       isLoading: false,
       isDeleting: false,
       todoToDelete: null,
-      currentPage: 1,
-      setCurrentPage: 1,
-      todosPerPage: 5,
-      setTodosPerPage: 5,
+      offset: 1,
+      //currentPage: 1,
+      //setCurrentPage: 1,
+      todosPerPage: 10,
+      //setTodosPerPage: 5,
       //indexOfFirstTodo: 0,
       //indexOfLastTodo: 9
     };
@@ -62,7 +67,7 @@ export default class TodosList extends Component {
     console.log('loading todos');
     setTimeout(() => {
       // for next button, create separate function that handles offset
-      axios.get(`http://localhost:4000/todos?offset=0&limit=${this.state.todosPerPage}`)
+      axios.get(`http://localhost:4000/todos?offset=${this.state.offset}&limit=${this.state.todosPerPage}`)
       .then(response => {
         console.log('todos loaded');
         this.setState({ todos: response.data, isLoading: false });
@@ -92,13 +97,13 @@ export default class TodosList extends Component {
       .finally(() => {
         this.setState({ isDeleting: false, todoToDelete: null });
       });
-    }, 1500)  
+    }, 1500);
+
+
+
   }
 
   todoList = (todos) => {
-    // let indexOfLastTodo = this.state.currentTodo * this.state.todosPerPage;
-    // let indexOfFirstTodo = this.state.indexOfLastTodo - this.state.todosPerPage;
-    // this.state.currentTodos = todos.slice(indexOfFirstTodo, indexOfLastTodo);
     return this.state.todos.map((currentTodo, i) => {
         return (<Todo 
           todo={currentTodo} 
@@ -110,8 +115,8 @@ export default class TodosList extends Component {
       })
     }
   
-  paginate = () => {
-
+  onChangePage(currentTodos) {
+    this.setState({ currentTodos: currentTodos });
   }
 
   render() {
@@ -126,6 +131,7 @@ export default class TodosList extends Component {
       return (
         <div>
           <h3>Todo List</h3>
+          <Pagination items={this.exampleItems} onChangePage={this.onChangePage} />
           <table className="table" style={{ marginTop: 20 }} >
             <thead>
               <tr>
@@ -140,11 +146,7 @@ export default class TodosList extends Component {
               { this.todoList(this.state.todos) }
             </tbody>
           </table>
-          {/* <Pagination 
-            todosPerPage={this.state.todosPerPage} 
-            totalPosts={this.state.todos.length} 
-            //paginate={paginate}
-          /> */}
+          
         </div>
 
 

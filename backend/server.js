@@ -5,10 +5,16 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const todoRoutes = express.Router();
 const PORT = 4000;
+const secret = 'testtoken';
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
+const withAuth = require('./middleware');
+
 let Todo = require('./Todo');
-let User = require('./User');
+//let User = require('./User');
 app.use(cors());
 app.use(bodyParser.json());
+app.use(cookieParser());
 mongoose.connect('mongodb://127.0.0.1:27017/', { useNewUrlParser: true });
 const connection = mongoose.connection;
 connection.once('open', function() {
@@ -16,13 +22,25 @@ connection.once('open', function() {
 })
 
 todoRoutes.route('/').get(function(req, res) {
-    Todo.find(function(err, todos) {
+  const offset = Number(req.query.offset);
+  const limit = Number(req.query.limit);
+    Todo.find({},{},{skip: offset, limit: limit }, function(err, todos) {
         if (err) {
             console.log(err);
         } else {
             res.json(todos);
         }
     });
+});
+
+todoRoutes.route('/login').get(function(req, res) {
+  User.findById(id, function(err, user) {
+    if (err) {
+      return res.status(404).json({
+        error: `User with id: ${id} does not exist`
+      });
+    }
+  });
 });
 
 todoRoutes.route('/:id').get(function(req, res) {
@@ -37,7 +55,9 @@ todoRoutes.route('/:id').get(function(req, res) {
     });
 });
 
-todoRoutes.route('/update/:id').post(function(req, res) {
+todoRoutes.route('/update/:id').put(function(req, res) {
+  let updates = req.body;
+  console.log(updates);
   Todo.findOneAndUpdate({ _id: req.params.id }, updates, (err, foundTodo) => {
     if (!foundTodo) {
       return res.status(404).send("data is not found");
@@ -66,8 +86,76 @@ todoRoutes.route('/:id').delete((req, res) => {
     .catch(err => {
         res.status(400).send('deleting todo failed');
     });
-    // .then(() => res.json('Task deleted.'))
-    // .catch(err => res.status(400).json('Error: ' + err));
+});
+
+todoRoutes.route('/home').get((req, res) => {
+  res.send('Welcome!');
+});
+
+// todoRoutes.route('/secret').get((req, res) => {
+//   res.send('The password is _____');
+// });
+
+app.get('/secret', withAuth, function(req, res) {
+  res.send('The password is ------');
+});
+
+app.get('/checkToken', withAuth, function(req, res) {
+  res.sendStatus(200);
+});
+
+// POST route to register a user
+todoRoutes.route('/register').post((req, res) => {
+  const { email, password } = req.body;
+  const user = new User({ email, password });
+  user.save(function(err) {
+    if (err) {
+      res.status(500)
+        .send("Error registering new user please try again.");
+    } else {
+      res.status(200).send("Welcome to the club!");
+    }
+  });
+});
+
+todoRoutes.post('/api/authenticate', function(req, res) {
+  const { email, password } = req.body;
+  User.findOne({ email }, function(err, user) {
+    if (err) {
+      console.error(err);
+      res.status(500)
+        .json({
+        error: 'Internal error please try again'
+      });
+    } else if (!user) {
+      res.status(401)
+        .json({
+          error: 'Incorrect email or password'
+        });
+    } else {
+      user.isCorrectPassword(password, function(err, same) {
+        if (err) {
+          res.status(500)
+            .json({
+              error: 'Internal error please try again'
+          });
+        } else if (!same) {
+          res.status(401)
+            .json({
+              error: 'Incorrect email or password'
+          });
+        } else {
+          // Issue token
+          const payload = { email };
+          const token = jwt.sign(payload, secret, {
+            expiresIn: '1h'
+          });
+          res.cookie('token', token, { httpOnly: true })
+            .sendStatus(200);
+        }
+      });
+    }
+  });
 });
 
 /*

@@ -15,7 +15,7 @@ const Todo = props => (
     <td className={props.todo.todoCompleted ? 'completed' : ''}>{props.todo.todoDescription}</td>
     <td className={props.todo.todoCompleted ? 'completed' : ''}>{props.todo.todoCategory}</td>
     <td className={props.todo.todoCompleted ? 'completed' : ''}>{props.todo.todoPriority}</td>
-    <td className={props.todo.todoCompleted ? 'completed' : ''}>{props.todo.todoCreatedAtDate}</td>
+    <td className={props.todo.todoCompleted ? 'completed-button' : ''}>{props.todo.todoCreatedAtDate}</td>
     <td>
       <Link to={"/edit/"+props.todo._id} className={props.todo.todoCompleted ? 'completed-button' : ''} >Edit</Link>
       <br></br>
@@ -49,6 +49,7 @@ export default class TodosList extends Component {
       //setTodosPerPage: 5,
       //indexOfFirstTodo: 0,
       //indexOfLastTodo: 9
+      toastMessage:'sample'
     };
   }
 
@@ -79,8 +80,15 @@ export default class TodosList extends Component {
 
   removeTodo = (event, todo_id) => {
     event.preventDefault();
+    console.log(todo_id);
     this.setState({ isDeleting: true, todoToDelete: todo_id });
-    const [show, setShow] = useState(false);
+    let deletedTodo;
+    axios.get('http://localhost:4000/todos/'+todo_id)
+      .then(res => {
+        deletedTodo = res.data;
+        console.log(deletedTodo); 
+    });
+
     setTimeout(() => {
       axios.delete('http://localhost:4000/todos/'+todo_id)
       .then(res => {
@@ -95,7 +103,10 @@ export default class TodosList extends Component {
       })
       .finally(() => {
         this.setState({ isDeleting: false, todoToDelete: null });
-        //toast.notify('Hello world!');
+        let toast = document.getElementById('snackbar');
+        this.setState({ toastMessage: `Todo deleted: ${deletedTodo.todoDescription}` });
+        toast.className = 'show';
+        setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
       });
     }, 1500);
 
@@ -145,6 +156,7 @@ export default class TodosList extends Component {
               { this.todoList(this.state.todos) }
             </tbody>
           </table>
+          <div id="snackbar">{this.state.toastMessage}</div>
         </div>
       )
     }

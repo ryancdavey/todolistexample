@@ -45,7 +45,7 @@ export default class TodosList extends Component {
       offset: 0,
       //currentPage: 1,
       //setCurrentPage: 1,
-      todosPerPage: 10,
+      todosPerPage: 5,
       //setTodosPerPage: 5,
       //indexOfFirstTodo: 0,
       //indexOfLastTodo: 9
@@ -131,40 +131,46 @@ export default class TodosList extends Component {
   getPreviousPage = () => {
     this.setState({ 
       isLoading: true,
-      offset: this.state.offset-1
+      
     });
     
     console.log('loading todos');
-    setTimeout(() => {
+  
       // for next button, create separate function that handles offset
-      axios.get(`http://localhost:4000/todos?offset=${this.state.offset}&limit=${this.state.todosPerPage}`)
+      axios.get(`http://localhost:4000/todos?offset=${this.state.offset-this.state.todosPerPage}&limit=${this.state.todosPerPage}`)
       .then(response => {
         console.log('todos loaded');
-        this.setState({ todos: response.data, isLoading: false });
+        this.setState({ 
+          todos: response.data, 
+          isLoading: false,
+          offset: this.state.offset-this.state.todosPerPage
+        });
       })
       .catch(function (error){
         console.log(error);
       });
-    }, 1000);
   }
 
   getNextPage = () => {
     this.setState({ 
-      isLoading: true
+      isLoading: true,
+      
     });
     
     console.log('loading todos');
-    setTimeout(() => {
-      // for next button, create separate function that handles offset
-      axios.get(`http://localhost:4000/todos?offset=${this.state.offset}&limit=${this.state.todosPerPage}`)
+
+      axios.get(`http://localhost:4000/todos?offset=${this.state.offset+this.state.todosPerPage}&limit=${this.state.todosPerPage}`)
       .then(response => {
         console.log('todos loaded');
-        this.setState({ todos: response.data, isLoading: false });
+        this.setState({ 
+          todos: response.data, 
+          isLoading: false,
+          offset: this.state.offset + this.state.todosPerPage
+        });
       })
       .catch(function (error){
         console.log(error);
       });
-    }, 1000);
   }
 
   render() {
@@ -181,21 +187,22 @@ export default class TodosList extends Component {
           <h3>Todo List</h3>
           <span>
             <button
-              disabled={this.state.isLoading}
+              disabled={ this.state.isLoading || this.state.offset === 0 }
               className={'prev-button'}
               onClick={this.getPreviousPage}
             >
               Previous
             </button>
             <button
-              disabled={this.state.isLoading}
+              disabled={this.state.isLoading || this.state.todos.length < this.state.todosPerPage}
               className={'next-button'}
               onClick={this.getNextPage}
             >
               Next
             </button>
             <label>
-              Viewing Todos {this.state.offset * this.state.todosPerPage + 1} through {(this.state.offset + 1) * this.state.todosPerPage}
+              Viewing Todos {this.state.offset === 0 ? 1 : this.state.offset + 1} 
+              through {this.state.offset + this.state.todos.length}
             </label>
           </span>
           {/* <Pagination items={this.exampleItems} onChangePage={this.onChangePage} /> */}

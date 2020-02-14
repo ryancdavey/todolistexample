@@ -13,13 +13,11 @@ var UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  todos: {
-    type: Array
-  }
+  
 
 });
 
-User.pre('save', function(next) {
+UserSchema.pre('save', function(next) {
   // Check if document is new or a new password has been set
   if (this.isNew || this.isModified('password')) {
   // Saving reference to this because of changing scopes
@@ -39,5 +37,5 @@ User.pre('save', function(next) {
   }
 });
 
-var User = mongoose.model('User', UserSchema);
+const User = mongoose.model('User', UserSchema);
 module.exports = User;

@@ -128,6 +128,45 @@ export default class TodosList extends Component {
     this.setState({ currentTodos: currentTodos });
   }
 
+  getPreviousPage = () => {
+    this.setState({ 
+      isLoading: true,
+      offset: this.state.offset-1
+    });
+    
+    console.log('loading todos');
+    setTimeout(() => {
+      // for next button, create separate function that handles offset
+      axios.get(`http://localhost:4000/todos?offset=${this.state.offset}&limit=${this.state.todosPerPage}`)
+      .then(response => {
+        console.log('todos loaded');
+        this.setState({ todos: response.data, isLoading: false });
+      })
+      .catch(function (error){
+        console.log(error);
+      });
+    }, 1000);
+  }
+
+  getNextPage = () => {
+    this.setState({ 
+      isLoading: true
+    });
+    
+    console.log('loading todos');
+    setTimeout(() => {
+      // for next button, create separate function that handles offset
+      axios.get(`http://localhost:4000/todos?offset=${this.state.offset}&limit=${this.state.todosPerPage}`)
+      .then(response => {
+        console.log('todos loaded');
+        this.setState({ todos: response.data, isLoading: false });
+      })
+      .catch(function (error){
+        console.log(error);
+      });
+    }, 1000);
+  }
+
   render() {
     if (this.state.isLoading) {
       return (
@@ -140,8 +179,26 @@ export default class TodosList extends Component {
       return (
         <div>
           <h3>Todo List</h3>
-          <button>Previous</button><button>Next</button>
-          <Pagination items={this.exampleItems} onChangePage={this.onChangePage} />
+          <span>
+            <button
+              disabled={this.state.isLoading}
+              className={'prev-button'}
+              onClick={this.getPreviousPage}
+            >
+              Previous
+            </button>
+            <button
+              disabled={this.state.isLoading}
+              className={'next-button'}
+              onClick={this.getNextPage}
+            >
+              Next
+            </button>
+            <label>
+              Viewing Todos {this.state.offset * this.state.todosPerPage + 1} through {(this.state.offset + 1) * this.state.todosPerPage}
+            </label>
+          </span>
+          {/* <Pagination items={this.exampleItems} onChangePage={this.onChangePage} /> */}
           <table className="table" style={{ marginTop: 20 }} >
             <thead>
               <tr>

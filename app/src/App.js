@@ -30,24 +30,27 @@ class App extends Component {
       <Router>
         <div className="container">
           <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <Link to="/" className="navbar-brand">Todo App</Link>
+            <h3>Todo App</h3>
             <div className="collpase navbar-collapse">
               <ul className="navbar-nav mr-auto">
                 <li className="navbar-item">
-                  <Link to="/" className="nav-link">Todos</Link>
+                  <Link to="/todos" className="nav-link">Todos</Link>
                 </li>
                 <li className="navbar-item">
                   <Link to="/create" className="nav-link">Create Todo</Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/logout" className="nav-link">Log Out</Link>
                 </li>
               </ul>
             </div>
           </nav>
           <br/>
           {/* <Route path="/" component={Login}/> */}
-          <Route path="/" exact component={TodosList} />
+          <Route path="/todos" exact component={TodosList} />
           <Route path="/edit/:id" component={EditTodo} />
           <Route path="/create" component={CreateTodo} />
-          <Route path="/logout" text='Log Out'/>
+          <Route path="/logout" component={CreateTodo}/>
         </div>
       </Router>
       

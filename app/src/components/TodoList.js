@@ -43,12 +43,8 @@ export default class TodosList extends Component {
       isDeleting: false,
       todoToDelete: null,
       offset: 0,
-      //currentPage: 1,
-      //setCurrentPage: 1,
       todosPerPage: 5,
       //setTodosPerPage: 5,
-      //indexOfFirstTodo: 0,
-      //indexOfLastTodo: 9
       toastMessage:'sample'
     };
   }
@@ -75,6 +71,58 @@ export default class TodosList extends Component {
       .catch(function (error){
         console.log(error);
       });
+    }, 1000);
+  }
+
+  // filterTodoDescriptions.addEventListener('input', e => {
+  //   const element = e.target.value.toLowerCase()
+  //   const newUser = users
+  //     .filter(user => user.login
+  //     .toLowerCase()
+  //     .includes(element))
+  
+  //     showUsers(newUser)
+  // })
+  filterTodoDescriptions = event => {
+    event.preventDefault();
+    const searchTerm = event.target.value.toLowerCase();
+    this.setState({ isLoading: true });
+    console.log('loading filtered descriptions');
+    setTimeout(() => {
+      axios.get(`http://localhost:4000/todos`)
+      .then(response => {
+        console.log('filtered descriptions loaded');
+        //console.log(response.data);
+        this.setState({ 
+          todos: response.data.filter(todo => todo.todoDescription.toLowerCase().includes(searchTerm)),  
+          isLoading: false
+        });
+      })
+      .catch(function (error){
+        console.log(error);
+      })
+      console.log(this.state.todos);
+    }, 1000);
+  }
+
+  filterTodoCategories = event => {
+    event.preventDefault();
+    const searchTerm = event.target.value.toLowerCase();
+    this.setState({ isLoading: true });
+    console.log('loading filtered descriptions');
+    setTimeout(() => {
+      axios.get(`http://localhost:4000/todos`)
+      .then(response => {
+        console.log('filtered descriptions loaded');
+        console.log(response.data);
+        this.setState({ 
+          todos: response.data.filter(todo => todo.todoCategory.toLowerCase().includes(searchTerm)),  
+          isLoading: false
+        });
+      })
+      .catch(function (error){
+        console.log(error);
+      })
     }, 1000);
   }
 
@@ -200,12 +248,39 @@ export default class TodosList extends Component {
             >
               Next
             </button>
+            <span></span>
             <label>
-              Viewing Todos {this.state.offset === 0 ? 1 : this.state.offset + 1} 
-              through {this.state.offset + this.state.todos.length}
+              Viewing Todos { this.state.offset === 0 ? 1 : this.state.offset + 1 } through { this.state.offset + this.state.todos.length }
             </label>
+            <div>
+              <input 
+                type="text" 
+                id="filter-descriptions" 
+                placeholder="Filter descriptions..." 
+                className="appearance-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 rounded-lg text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" 
+              /> 
+              <button
+                disabled={this.state.isLoading}
+                className={'next-button'}
+                onClick={this.filterTodoDescriptions}
+              >
+                Filter
+              </button>
+              <input 
+                type="text" 
+                id="filter-categories" 
+                placeholder="Filter categories..."
+                className="appearance-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 rounded-lg text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" 
+              /> 
+              <button
+                disabled={this.state.isLoading}
+                className={'next-button'}
+                onClick={this.filterTodoCategories}
+              >
+                Filter
+              </button>
+            </div>
           </span>
-          {/* <Pagination items={this.exampleItems} onChangePage={this.onChangePage} /> */}
           <table className="table" style={{ marginTop: 20 }} >
             <thead>
               <tr>

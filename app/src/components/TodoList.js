@@ -58,6 +58,8 @@ export default class TodosList extends Component {
   };
 
   componentDidMount() {
+
+    
     this.setState({ isLoading: true });
     
     console.log('loading todos');

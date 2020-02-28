@@ -29,18 +29,6 @@ connection.once('open', function() {
     console.log("MongoDB database connection established successfully");
 })
 
-todoRoutes.route('/home').get((req, res) => {
-  res.send('Welcome!');
-});
-
-// todoRoutes.route('/secret').get((req, res) => {
-//   res.send('The password is _____');
-// });
-
-// app.get('/secret', withAuth, function(req, res) {
-//   res.send('The password is ------');
-// });
-
 app.get('/checkToken', withAuth, function(req, res) {
   res.sendStatus(200);
 });

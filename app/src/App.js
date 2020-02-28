@@ -3,13 +3,13 @@ import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import CreateTodo from "./components/NewTodo";
 import EditTodo from "./components/EditTodo";
 import TodosList from "./components/TodoList";
-//import { Link, Route, Switch } from 'react-router-dom';
+import { PrivateRoute } from './components/PrivateRoute';
 import Home from './components/Home';
-import Secret from './components/Secret';
 import Login from './components/Login';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 class App extends Component {
+
   render() {
     return (
       // <div>
@@ -46,11 +46,11 @@ class App extends Component {
             </div>
           </nav>
           <br/>
-          {/* <Route path="/" component={Login}/> */}
-          <Route path="/todos" exact component={TodosList} />
-          <Route path="/edit/:id" component={EditTodo} />
-          <Route path="/create" component={CreateTodo} />
-          <Route path="/logout" component={CreateTodo}/>
+          <Route path="/" component={Login}/>
+          <PrivateRoute path="/todos" exact component={TodosList} />
+          <PrivateRoute path="/edit/:id" component={EditTodo} />
+          <PrivateRoute path="/create" component={CreateTodo} />
+          <PrivateRoute path="/logout" component={CreateTodo}/>
         </div>
       </Router>
       

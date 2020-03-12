@@ -8,7 +8,7 @@ const PORT = 4000;
 const secret = 'testtoken';
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
-const withAuth = require('./middleware');
+//const withAuth = require('./middleware');
 
 let Todo = require('./Todo');
 let User = require('./User');
@@ -29,9 +29,9 @@ connection.once('open', function() {
     console.log("MongoDB database connection established successfully");
 })
 
-app.get('/checkToken', withAuth, function(req, res) {
-  res.sendStatus(200);
-});
+// app.get('/checkToken', withAuth, function(req, res) {
+//   res.sendStatus(200);
+// });
 
 // POST route to register a user
 todoRoutes.route('/register').post((req, res) => {
@@ -136,34 +136,6 @@ todoRoutes.post('/', function (req, res, next) {
   }
 });
 
-// // create a user a new user
-// var testUser = new User({
-//   email: 'test1@aol.com',
-//   password: 'Password123'
-// });
-
-// // save user to database
-// testUser.save(function(err) {
-//   if (err) throw err;
-
-//   // fetch user and test password verification
-//   User.findOne({ email: 'test@aol.com' }, function(err, user) {
-//       if (err) throw err;
-
-//       // test a matching password
-//       user.comparePassword('Password123', function(err, isMatch) {
-//           if (err) throw err;
-//           console.log('Password123:', isMatch); // -> Password123: true
-//       });
-
-//       // test a failing password
-//       user.comparePassword('123Password', function(err, isMatch) {
-//           if (err) throw err;
-//           console.log('123Password:', isMatch); // -> 123Password: false
-//       });
-//   });
-// });
-
 // GET route after registering
 todoRoutes.get('/profile', function (req, res, next) {
   User.findById(req.session.userId)
@@ -190,7 +162,7 @@ todoRoutes.get('/logout', function (req, res, next) {
       if (err) {
         return next(err);
       } else {
-        return res.redirect('/');
+        return res.redirect('/login');
       }
     });
   }
@@ -271,3 +243,32 @@ app.use('/todos', todoRoutes);
 app.listen(PORT, function() {
     console.log("Server is running on Port: " + PORT);
 });
+
+
+ // // create a user a new user
+// var testUser = new User({
+//   email: 'test1@aol.com',
+//   password: 'Password123'
+// });
+
+// // save user to database
+// testUser.save(function(err) {
+//   if (err) throw err;
+
+//   // fetch user and test password verification
+//   User.findOne({ email: 'test@aol.com' }, function(err, user) {
+//       if (err) throw err;
+
+//       // test a matching password
+//       user.comparePassword('Password123', function(err, isMatch) {
+//           if (err) throw err;
+//           console.log('Password123:', isMatch); // -> Password123: true
+//       });
+
+//       // test a failing password
+//       user.comparePassword('123Password', function(err, isMatch) {
+//           if (err) throw err;
+//           console.log('123Password:', isMatch); // -> 123Password: false
+//       });
+//   });
+// });

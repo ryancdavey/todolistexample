@@ -65,7 +65,7 @@ export default class TodosList extends Component {
     console.log('loading todos');
     setTimeout(() => {
       // for next button, create separate function that handles offset
-      axios.get(`http://localhost:4000/todos?offset=${this.state.offset}&limit=${this.state.todosPerPage}`)
+      axios.get(`http://localhost:4000/todos/?offset=${this.state.offset}&limit=${this.state.todosPerPage}`)
       .then(response => {
         console.log('todos loaded');
         this.setState({ todos: response.data, isLoading: false });
@@ -224,6 +224,8 @@ export default class TodosList extends Component {
   }
 
   render() {
+    console.log('rendering...');
+
     if (this.state.isLoading) {
       return (
         <div>

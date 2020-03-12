@@ -1,5 +1,5 @@
 // import React, { Component } from 'react';
-// import { Link, Route, Switch } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 // import axios from 'axios';
 // import MDSpinner from 'react-md-spinner';
 
@@ -18,7 +18,11 @@
 // export default Login;
 
 import React, { Component } from 'react';
-export default class Login extends Component {
+import axios from 'axios';
+
+import withUser from './withUser';
+
+class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -26,46 +30,80 @@ export default class Login extends Component {
       password: ''
     };
   }
-  handleInputChange = (event) => {
+  handleLoginInputChange = (event) => {
     const { value, name } = event.target;
     this.setState({
       [name]: value
     });
   }
-  onSubmit = (event) => {
-    event.preventDefault();
-    fetch('/authenticate', {
-      method: 'POST',
-      body: JSON.stringify(this.state),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(res => {
-      if (res.status === 200) {
-        this.props.history.push('/todos');
-      } else {
-        const error = new Error(res.error);
-        throw error;
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      alert('Error logging in please try again');
+
+  handleRegisterInputChange = (event) => {
+    const { value, name } = event.target;
+    this.setState({
+      [name]: value
     });
+  } 
+
+  onSubmitLogin = (event) => {
+    event.preventDefault();
+    this.props.user.actions.onLogin('foo');
+
+    // axios.get('/login')
+    //   .then(res => {
+    //     this.props.user.actions.onLogin('foo');
+    //     if (res.status === 200) {
+    //       this.props.history.push('/profile');
+    //     } else {
+    //       const error = new Error(res.error);
+    //       throw error;
+    //     }
+    //   })
+    //   .catch(err => {
+    //     console.error(err);
+    //     alert('Error logging in please try again');
+    //   });
+    // fetch('/authenticate', {
+    //   method: 'POST',
+    //   body: JSON.stringify(this.state),
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   }
+    // })
   }
-  
+
+  onSubmitRegister = (event) => {
+    event.preventDefault();
+    axios.get('/register')
+      .then(res => {
+        if (res.status === 200) {
+          this.props.history.push('/profile');
+        } else {
+          const error = new Error(res.error);
+          throw error;
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert('Error registering account, please try again');
+      });
+  }
 
   render() {
+    const { user } = this.props;
+
+    if (user.isLoggedIn) {
+      return <Redirect to="/todos" />
+    }
+
     return (
-      <form onSubmit={this.onSubmit}>
-        <h1>Login or Register Below</h1>
+      <div>
+        <h1>Login Below</h1>
         <input
           type="email"
           name="email"
           placeholder="Enter email"
           value={this.state.email}
-          onChange={this.handleInputChange}
+          onChange={this.handleLoginInputChange}
           required
         />
         <input
@@ -73,14 +111,14 @@ export default class Login extends Component {
           name="password"
           placeholder="Enter password"
           value={this.state.password}
-          onChange={this.handleInputChange}
+          onChange={this.handleLoginInputChange}
           required
         />
-        <div>
-          <input type="submit" value="Login"/>
-          <input type="submit" value="Register"/>
-        </div>
-      </form>
+        <button onClick={this.onSubmitLogin}>Login</button>
+        <button onClick={this.onSubmitRegister}>Register</button>
+    </div>
     );
   }
 }
+
+export default withUser(Login);

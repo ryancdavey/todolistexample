@@ -20,18 +20,18 @@ var UserSchema = new mongoose.Schema({
 UserSchema.pre('save', function(next) {
   // Check if document is new or a new password has been set
   if (this.isNew || this.isModified('password')) {
-  // Saving reference to this because of changing scopes
-  const document = this;
-  bcrypt.hash(document.password, saltRounds,
-    function(err, hashedPassword) {
-    if (err) {
-      next(err);
-    }
-    else {
-      document.password = hashedPassword;
-      next();
-    }
-  });
+    // Saving reference to this because of changing scopes
+    const document = this;
+    bcrypt.hash(document.password, saltRounds,
+      function(err, hashedPassword) {
+        if (err) {
+          next(err);
+        }
+        else {
+          document.password = hashedPassword;
+          next();
+        }
+      });
   } else {
     next();
   }
@@ -42,9 +42,9 @@ UserSchema.statics.authenticate = function (email, password, callback) {
   User.findOne({ email: email })
     .exec(function (err, user) {
       if (err) {
-        return callback(err)
+        return callback(err);
       } else if (!user) {
-        var err = new Error('User not found.');
+        let err = new Error('User not found.');
         err.status = 401;
         return callback(err);
       }
@@ -55,8 +55,8 @@ UserSchema.statics.authenticate = function (email, password, callback) {
           return callback();
         }
       });
-  });
-}
+    });
+};
 
 const User = mongoose.model('User', UserSchema);
-module.exports = User;
+export default User;

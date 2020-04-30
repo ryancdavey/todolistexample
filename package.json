@@ -28,7 +28,7 @@
     "express": "^4.17.1",
     "express-generator": "^4.16.1",
     "is-empty": "^1.2.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.2",
     "passport": "^0.4.1",
